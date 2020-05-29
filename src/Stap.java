@@ -33,4 +33,12 @@ public class Stap<Type> {
     public void setTargetReis(Reis targetReis) {
         this.targetReis = targetReis;
     }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
 }

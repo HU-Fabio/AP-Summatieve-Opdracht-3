@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class Dijkstra {
+    public Stap sourceStap;
+
     public void computePath(Reis sourceReis) {
         sourceReis.setMinDistance(0);
         PriorityQueue<Reis> priorityQueue = new PriorityQueue<>();
@@ -15,9 +17,30 @@ public class Dijkstra {
             for (Stap stap : reis.getStaps()) {
                 Reis v = stap.getTargetReis();
 //                Vertex u = edge.getStartVertex();
-                double weight = stap.getWeight();
-//              Change to checking type
-                double minDistance = reis.getMinDistance() + weight;
+                double minDistance = 0;
+
+//              Convert to source node type
+                if (reis.getMinDistance() != 0) {
+                    if (stap.getType() instanceof Rit && sourceStap.getType() instanceof Rit || stap.getType() instanceof Treinrit && sourceStap.getType() instanceof Treinrit || stap.getType() instanceof Vlucht && sourceStap.getType() instanceof Vlucht) {
+                        double weight = stap.getWeight();
+                        minDistance = reis.getMinDistance() + weight;
+                    } else if (stap.getType() instanceof Vlucht && sourceStap.getType() instanceof Rit || stap.getType() instanceof Rit && sourceStap.getType() instanceof Vlucht) {
+                        double weight = stap.getWeight() * 11;
+                        minDistance = reis.getMinDistance() + weight;
+                    } else if (stap.getType() instanceof Treinrit && sourceStap.getType() instanceof Rit || stap.getType() instanceof Rit && sourceStap.getType() instanceof Treinrit) {
+                        double weight = stap.getWeight() * 1.4;
+                        minDistance = reis.getMinDistance() + weight;
+                    } else if(stap.getType() instanceof Vlucht && sourceStap.getType() instanceof Treinrit || stap.getType() instanceof Treinrit && sourceStap.getType() instanceof Vlucht) {
+                        double weight = 
+                    }
+
+
+                } else {
+                    sourceStap = stap;
+                    double weight = stap.getWeight();
+                    minDistance = reis.getMinDistance() + weight;
+                }
+
 
                 if (minDistance < v.getMinDistance()) {
                     priorityQueue.remove(reis);
@@ -38,5 +61,13 @@ public class Dijkstra {
 
         Collections.reverse(path);
         return path;
+    }
+
+    public Stap getSourceStap() {
+        return sourceStap;
+    }
+
+    public void setSourceStap(Stap sourceStap) {
+        this.sourceStap = sourceStap;
     }
 }
