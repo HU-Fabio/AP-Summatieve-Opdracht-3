@@ -20,27 +20,40 @@ public class Dijkstra {
                 double minDistance = 0;
 
 //              Convert to source node type
-                if (reis.getMinDistance() != 0) {
-                    if (stap.getType() instanceof Rit && sourceStap.getType() instanceof Rit || stap.getType() instanceof Treinrit && sourceStap.getType() instanceof Treinrit || stap.getType() instanceof Vlucht && sourceStap.getType() instanceof Vlucht) {
-                        double weight = stap.getWeight();
+                 if (stap.getType() instanceof Rit) {
+                    if (sourceStap.getType() instanceof Vlucht) {
+                        double weight = (stap.getWeight() / 0.11) * 1;
                         minDistance = reis.getMinDistance() + weight;
-                    } else if (stap.getType() instanceof Vlucht && sourceStap.getType() instanceof Rit || stap.getType() instanceof Rit && sourceStap.getType() instanceof Vlucht) {
-                        double weight = stap.getWeight() * 11;
+                    } else if (sourceStap.getType() instanceof Treinrit) {
+                        double weight = (stap.getWeight() / 1.4) * 1;
                         minDistance = reis.getMinDistance() + weight;
-                    } else if (stap.getType() instanceof Treinrit && sourceStap.getType() instanceof Rit || stap.getType() instanceof Rit && sourceStap.getType() instanceof Treinrit) {
-                        double weight = stap.getWeight() * 1.4;
-                        minDistance = reis.getMinDistance() + weight;
-                    } else if(stap.getType() instanceof Vlucht && sourceStap.getType() instanceof Treinrit || stap.getType() instanceof Treinrit && sourceStap.getType() instanceof Vlucht) {
-                        double weight = 
+                    } else {
+                        minDistance = reis.getMinDistance() + stap.getWeight();
                     }
+                 } else if (stap.getType() instanceof Vlucht) {
+                     if (sourceStap.getType() instanceof Rit) {
+                         double weight = (stap.getWeight() / 1) * 0.11;
+                         minDistance = reis.getMinDistance() + weight;
+                     } else if (sourceStap.getType() instanceof Treinrit) {
+                        double weight = (stap.getWeight() / 1.4) * 0.11;
+                        minDistance = reis.getMinDistance() + weight;
+                     } else {
+                         minDistance = reis.getMinDistance() + stap.getWeight();
+                     }
 
-
-                } else {
-                    sourceStap = stap;
-                    double weight = stap.getWeight();
-                    minDistance = reis.getMinDistance() + weight;
-                }
-
+                 } else if (stap.getType() instanceof Treinrit) {
+                    if (sourceStap.getType() instanceof Rit) {
+                        double weight = (stap.getWeight() / 1) * 1.4;
+                        minDistance = reis.getMinDistance() + weight;
+                    } else if (sourceStap.getType() instanceof Vlucht) {
+                        double weight = (stap.getWeight() / 0.11) * 1.4;
+                        minDistance = reis.getMinDistance() + weight;
+                    } else {
+                        minDistance = reis.getMinDistance() + stap.getWeight();
+                    }
+                 } else {
+                     minDistance = stap.getWeight();
+                 }
 
                 if (minDistance < v.getMinDistance()) {
                     priorityQueue.remove(reis);

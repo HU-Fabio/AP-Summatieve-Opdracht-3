@@ -1,19 +1,27 @@
 public class App {
     public static void main(String[] args) {
-        Reis v1 = new Reis("A");
-        Reis v2 = new Reis("B");
-        Reis v3 = new Reis("C");
-        Reis v4 = new Reis("D");
+        Reis A = new Reis("A");
+        Reis B = new Reis("B");
+        Reis C = new Reis("C");
+        Reis D = new Reis("D");
+        Reis E = new Reis("E");
+        Reis F = new Reis("F");
 
-        v1.addNeighbour(new Stap<Rit>(5, v1, v2));
-        v1.addNeighbour(new Stap<Rit>(10, v1, v3));
+        A.addNeighbour(new Stap<Treinrit>(10, A, B));
+        A.addNeighbour(new Stap<Vlucht>(150, A, C));
 
-        v2.addNeighbour(new Stap<Rit>(5, v2, v4));
-        v3.addNeighbour(new Stap<Rit>(10, v3, v4));
+        B.addNeighbour(new Stap<Rit>(12, B, D));
+        B.addNeighbour(new Stap<Treinrit>(1, B, E));
+
+        D.addNeighbour(new Stap<Rit>(2, D, F));
+
+        E.addNeighbour(new Stap<Rit>(2, E, F));
+
+        C.addNeighbour(new Stap<Treinrit>(2, C, F));
 
         Dijkstra dijkstra = new Dijkstra();
-        dijkstra.computePath(v1);
+        dijkstra.computePath(A);
 
-        System.out.println(dijkstra.getShortestPathTo(v3));
+        System.out.println(dijkstra.getShortestPathTo(F));
     }
 }
